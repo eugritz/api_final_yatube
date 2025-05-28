@@ -1,4 +1,4 @@
-from rest_framework import serializers
+from rest_framework import serializers, validators
 from rest_framework.relations import SlugRelatedField
 
 
@@ -56,3 +56,9 @@ class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
         exclude = ['id']
+        validators = (
+            validators.UniqueTogetherValidator(
+                queryset=Follow.objects.all(),
+                fields=('user', 'following'),
+            ),
+        )
