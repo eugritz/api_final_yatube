@@ -49,7 +49,8 @@ class FollowSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if self.context['request'].user.id == data['following'].id:
-            raise serializers.ValidationError('user must not be equal to following')
+            raise serializers.ValidationError('user must not be equal to '
+                                              'following')
         return data
 
     class Meta:

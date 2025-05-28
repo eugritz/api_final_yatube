@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from datetime import timedelta
+# from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -101,8 +101,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('JWT', 'Bearer'),
+    'AUTH_HEADER_TYPES': ('JWT', 'Bearer'),
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
