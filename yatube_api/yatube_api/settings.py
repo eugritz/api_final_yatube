@@ -11,13 +11,14 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'djoser',
     'api',
     'posts',
 ]
@@ -91,9 +92,16 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = ((BASE_DIR / 'static/'),)
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+}
+
+SIMPLE_JWT = {
+   'AUTH_HEADER_TYPES': ('JWT',),
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
