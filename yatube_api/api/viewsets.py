@@ -1,11 +1,13 @@
-from rest_framework import viewsets
+from rest_framework import filters, mixins, viewsets
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from posts.models import Comment, Group, Post
+from posts.models import Comment, Follow, Group, Post
 
 from .permissions import IsAuthorOrReadOnly
-from .serializers import CommentSerializer, GroupSerializer, PostSerializer
+from .serializers import (
+    CommentSerializer, FollowSerializer, GroupSerializer, PostSerializer
+)
 
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
@@ -36,3 +38,15 @@ class CommentViewSet(viewsets.ModelViewSet):
             author=self.request.user,
             post=Post.objects.get(pk=self.kwargs['post_id'])
         )
+
+
+class FollowViewSet(mixins.CreateModelMixin,
+                    mixins.ListModelMixin,
+                    viewsets.GenericViewSet):
+    queryset = Follow.objects.all()
+    serializer_class = FollowSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('user__username', 'following__username')
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
